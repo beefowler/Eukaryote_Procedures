@@ -24,6 +24,7 @@ Here are the steps we took to generate the model inputs from the FCB data, which
 Our value for the volbins vector, which is used to group cells into the size bins, can be found in Before_Modeling/Volbins.mat. 
 
 For each year, we defined the paths to the appropriate directories of FCB data. 
+    
     year2do = 2017;
     beadpath = '//MVCO_Jan2017/data/processed/beads/'
     modelpath =   '//MVCO_Jan2017/euk_model/dawnstart_inputs_2019/'
@@ -49,6 +50,7 @@ Optimizations for MVCO data were run one year at a time using the wrapper script
 
 Again we manually defined the paths to the relevant inputs and outputs. 
 Usually something along these lines: 
+    
     filelist = dir('\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\*data.mat');
     filepath = '\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\';
     savepath = '\\Outputs\MVCO_Jan2017\'; 
