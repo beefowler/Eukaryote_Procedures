@@ -1,5 +1,5 @@
 # Eukaryote_Procedures
-A clean version of the tools used for estimating division rates of Eukaryotes, including descriptions and instructions. 
+A clean version of the tools used for estimating division rates of picoeukaryotes, including descriptions and instructions. 
 
 Here are the tools used to generate the results in Fowler et al. (in review). 
 
