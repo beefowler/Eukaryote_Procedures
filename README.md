@@ -11,11 +11,10 @@ The general procedures are as follows, and files in this repository are grouped 
 
 
 # Prerequisites 
-"""
-MATLAB 
-MATLAB Optimization Toolbox 
-MATLAB Parallel Computing Toolbox
-"""
+    MATLAB 
+    MATLAB Optimization Toolbox 
+    MATLAB Parallel Computing Toolbox
+
 Our model optimizations were all run on MATLAB R2018a, but R2019a also seems to work just fine. 
 
 
@@ -25,19 +24,15 @@ Here are the steps we took to generate the model inputs from the FCB data, which
 Our value for the volbins vector, which is used to group cells into the size bins, can be found in Before_Modeling/Volbins.mat. 
 
 For each year, we defined the paths to the appropriate directories of FCB data. 
-'''
-year2do = 2017;
-beadpath = '//MVCO_Jan2017/data/processed/beads/'
-modelpath =   '//MVCO_Jan2017/euk_model/dawnstart_inputs_2019/'
-datapath = '//MVCO_Jan2017/'
-mergedpath0 = '//MVCO_Jan2017/data/processed/grouped/merged/'
-groupedpath =   '//MVCO_Jan2017/data/processed/grouped/'
-plotflag = 1;
-'''
-and then ran 
-'''
-setup_days_picoeuks.m
-'''
+    year2do = 2017;
+    beadpath = '//MVCO_Jan2017/data/processed/beads/'
+    modelpath =   '//MVCO_Jan2017/euk_model/dawnstart_inputs_2019/'
+    datapath = '//MVCO_Jan2017/'
+    mergedpath0 = '//MVCO_Jan2017/data/processed/grouped/merged/'
+    groupedpath =   '//MVCO_Jan2017/data/processed/grouped/'
+    plotflag = 1;
+
+and then ran `setup_days_picoeuks.m.`
 
 This generates a .mat file for each day of the year for which we have data. In it are the variables: 
 day - the matlab date number 
@@ -54,8 +49,7 @@ Optimizations for MVCO data were run one year at a time using the wrapper script
 
 Again we manually defined the paths to the relevant inputs and outputs. 
 Usually something along these lines: 
-'''
-filelist = dir('\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\*data.mat');
-filepath = '\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\';
-savepath = '\\Outputs\MVCO_Jan2017\'; 
+    filelist = dir('\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\*data.mat');
+    filepath = '\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\';
+    savepath = '\\Outputs\MVCO_Jan2017\'; 
 
