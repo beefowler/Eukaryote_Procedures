@@ -10,7 +10,7 @@ The general procedures are as follows, and files in this repository are grouped 
   4. Figures_Scripts- generate the figures in paper. 
 
 
-# Prerequisites 
+# Environment 
     MATLAB 
     MATLAB Optimization Toolbox 
     MATLAB Parallel Computing Toolbox
