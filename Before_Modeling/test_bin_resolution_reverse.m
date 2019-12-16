@@ -15,32 +15,31 @@
 %days = floor((b-a).*rand(10,1) + a)
 
 
+% 2) Becuase there were 57 volume bins for Syn. let's make fewer eukaryote
+% volbins. 
 
-% 2) Becuase the eukaryote volbins we used was 2.^[-5:1/5:8]. We will just
-% switch 1/5 to 1/10. 
-
-%double_volbins = 2.^[-5:1/10:8] 
+fewer_volbins = 2.^[-5:1/4:8]; 
 
 %the new vector is 1x131 and spans the same range of sizes
-%save('Double_volbins.mat', 'double_volbins', 'days')
+save('fewer_volbins.mat', 'fewer_volbins', 'days')
 
 
 % 3) Alright now time to use setup_days_picoeuks.m to generate the new
-% higher-resolution inputs
+% lower-resolution inputs
 
 %here are the inputs 
 year2do = 2017;
 beadpath = '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/data/processed/beads/'; 
-modelpath =   '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/euk_model/doublebins_inputs/'; 
+modelpath =   '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/euk_model/fewerbins_inputs/'; 
 datapath = '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/';
 mergedpath0 = '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/data/processed/grouped/merged/'; 
 groupedpath =   '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/data/processed/grouped/'; 
 plotflag = 1;
 
-volbins = double_volbins; 
+volbins = fewer_volbins; 
 
 %now set up days 
-%setup_days_picoeuks
+setup_days_picoeuks
 
 %actually, this generates inputs for all the days of 2017, definitely
 %overkill, but it was the simplest way to do this. 
@@ -59,7 +58,7 @@ volbins = double_volbins;
 % 5 ) now we see what happened. 
 
 outpath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_Jan2017\'; 
-new_outpath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\doublebin_outputs\'; 
+new_outpath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\fewerbins_outputs\'; 
 
 dataframe = zeros(10, 2); 
 

@@ -100,9 +100,6 @@ eval(['load ' solarpath 'solar' num2str(year2do) '.mat']) %QC'd solar for time a
 Eall = [date_met Solar];  %date (UTC, matlab), SW radiation
 Eall(Eall(:,2)<0,2) = 0;  %no negatives allowed
 
-%volbins = 2.^(-5:0.125:2); %spacing for bins for Syn - log2 base
-%volbins = 2.^[-5:1/5:8]; %For Eukwork
-
 
 filenum = 1;
 filename = filelist(filenum).name;
