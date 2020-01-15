@@ -60,19 +60,13 @@ Usually something along these lines:
     
 For each day in the filelist, the script optimizes our model and creates an output with variabes as follows:   
 
-Einterp - Interpolated light data for that day, values in (W m^{-2}) every 10 minutes begining at dawn.   
-CONC - 66 x 25 matrix. Observed concentrations of cells in each bin for each hour of the day, beginning at dawn.   
-simCONC - 66 x 25 matrix. Simulated concentrations of cells in each bin for each hour of the day according to best fit parameters.    
-simPROPS - 66 x 25 matrix. Simulated proportion of cells in each bin for each hour of the day according to best fit parameters. Each  
-    hour sums to 1.   
-modelfits - X by 17 matrix of all attempted model runs in the optimization process. Columns 1:14 are the parameters (details below).   
-    Column 15 has the negative log likelihood for each run. Column 16 is the division rate, and Column 17 is the ExitFlag from  
-    createOptimProblem for each run.   
-allstarts - X by 14 matrix of the initial parameter values for each model run   
-modelresults - 1 by 23 vector with results of optimization process. The first entry is the day in Matlab datenum form. Entries 2:15 are   best-fit model parameters. modelresults(16) is the negative log likelihood. **modelresults(17) is the estimated division rate for the 
-  assemblage**, while modelresults(18:19) are the estimated division rates for each of the two subpopulations. modelresults(20:21) are  
-  the relative proportions of the two subpopulations at the end of the simulated day (as opposed to the starting proportions which is  
-  one of the parameters), and modelresults(23) is the ExitFlag from createOptimProblem for that best run.    
+  Einterp - Interpolated light data for that day, values in (W m^{-2}) every 10 minutes begining at dawn.   
+  CONC - 66 x 25 matrix. Observed concentrations of cells in each bin for each hour of the day, beginning at dawn.   
+  simCONC - 66 x 25 matrix. Simulated concentrations of cells in each bin for each hour of the day according to best fit parameters.    
+  simPROPS - 66 x 25 matrix. Simulated proportion of cells in each bin for each hour of the day according to best fit parameters. Each hour sums to 1.   
+  modelfits - X by 17 matrix of all attempted model runs in the optimization process. Columns 1:14 are the parameters (details below). Column 15 has the negative log likelihood for each run. Column 16 is the division rate, and Column 17 is the ExitFlag from  createOptimProblem for each run.   
+  allstarts - X by 14 matrix of the initial parameter values for each model run   
+  modelresults - 1 by 23 vector with results of optimization process. The first entry is the day in Matlab datenum form. Entries 2:15 are best-fit model parameters. modelresults(16) is the negative log likelihood. **modelresults(17) is the estimated division rate for the assemblage**, while modelresults(18:19) are the estimated division rates for each of the two subpopulations. modelresults(20:21) are  the relative proportions of the two subpopulations at the end of the simulated day (as opposed to the starting proportions which is one of the parameters), and modelresults(23) is the ExitFlag from createOptimProblem for that best run.    
 
 
 Throughout our modeling code the vector of parameters, theta, is ordered as follows:  
