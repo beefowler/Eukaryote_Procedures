@@ -7,7 +7,7 @@ The general procedures are as follows, and files in this repository are grouped 
   1. Before_Modeling- prepare data inputs for model. 
   2. Model_Essential_Scripts- optimize model to observed data. 
   3. Post_Modeling- synthesize results and filter. 
-  4. Figures_Scripts- generate the figures in paper. 
+  4. Figures_Data- data packaged to generate the figures in paper. 
 
 
 # Environment 
@@ -19,7 +19,7 @@ Our model optimizations were all run on MATLAB R2018a, but R2019a also seems to 
 
 
 # Before Modeling
-Here are the steps we took to generate the model inputs from the FCB data, which are available [HERE].
+Here are the steps we took to generate the model inputs from the raw FCB data. Please contact us if you would like to work from the raw data. 
 
 Our value for the volbins vector, which is used to group cells into the size bins, can be found in Before_Modeling/Volbins.mat. 
 
@@ -45,13 +45,27 @@ N_dist - 66 x 25 matrix. Counts of cells in each bin for each hour of the day, b
 Vhists - 66 x 25 matrix. Proportion of cells in each bin for each hour of the day (each hour sums to 1). 
 
 
+Model Sensitivity to Bin Size
+Also in Before_Modeling/ is a folder called Test_BinResolution. Here, you can find the code that we used to test the sensitivity of our model to a change in the volume bin sizes. For a random subset of ten days in 2017, we redid the model setup described above with twice the number of volume bins over the same range of cell size. In order to properly compare this to the original model results, we needed to run our model with half the timestep (since cells can move up at most one size class per timestep, they would otherwise be prevented from growing as quickly as before). The code for that slighly modified model is in the Half_Timestep_Model folder, the test procedure is in the test_bin_resolution.m file and the results of our test can be seen in the ten .fig files. 
+
 # Optimizing Model 
-Optimizations for MVCO data were run one year at a time using the wrapper script ModelMVCO.m which can be found in the Model_Essential_Scripts/ 
+Optimizations for MVCO data were run one year at a time using the wrapper script ModelMVCO.m which can be found in the Model_Essential_Scripts/ folder. 
 
 Again we manually defined the paths to the relevant inputs and outputs. 
 Usually something along these lines: 
     
-    filelist = dir('\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\*data.mat');
-    filepath = '\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\';
+    filelist = dir('\\MVCO_Jan2017\euk_model\inputs_2019\*data.mat');
+    filepath = '\\MVCO_Jan2017\euk_model\inputs_2019\';
     savepath = '\\Outputs\MVCO_Jan2017\'; 
+    
+For each day in the filelist, the script optimizes our model and creates an output with variabes as follows: 
+Einterp - Interpolated light data for that day, values in (W m^{-2}) every 10 minutes begining at dawn. 
+CONC - 66 x 25 matrix. Observed concentrations of cells in each bin for each hour of the day, beginning at dawn. 
+simCONC - 66 x 25 matrix. Simulated concentrations of cells in each bin for each hour of the day according to best fit parameters. 
+simPROPS - 66 x 25 matrix. Simulated proportion of cells in each bin for each hour of the day according to best fit parameters. Each hour sums to 1. 
+allstarts - 
+modelfits - 
+modelresults - 
+
+
 
