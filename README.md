@@ -35,14 +35,14 @@ For each year, we defined the paths to the appropriate directories of FCB data.
 
 and then ran `setup_days_picoeuks.m.`
 
-This generates a .mat file for each day of the year for which we have data. In it are the variables: 
-day - the matlab date number 
-volbins - just useful for backtracking 
-dielstarthr - the (rounded) number of hours after midnight at which dawn occurs  
-cellsperml - 1x25 with concentrations of eukaryotes at every hour begining at dawn 
-Edata - 2 x 73 matrix. First column is # of hours after dawn, second column is incidant radiation (W m^{-2}) 
-N_dist - 66 x 25 matrix. Counts of cells in each bin for each hour of the day, beginning at dawn. 
-Vhists - 66 x 25 matrix. Proportion of cells in each bin for each hour of the day (each hour sums to 1). 
+This generates a .mat file for each day of the year for which we have data. In it are the variables: \ 
+day - the matlab date number \ 
+volbins - just useful for backtracking \ 
+dielstarthr - the (rounded) number of hours after midnight at which dawn occurs  \ 
+cellsperml - 1x25 with concentrations of eukaryotes at every hour begining at dawn \ 
+Edata - 2 x 73 matrix. First column is # of hours after dawn, second column is incidant radiation (W m^{-2}) \ 
+N_dist - 66 x 25 matrix. Counts of cells in each bin for each hour of the day, beginning at dawn. \ 
+Vhists - 66 x 25 matrix. Proportion of cells in each bin for each hour of the day (each hour sums to 1). \ 
 
 
 Model Sensitivity to Bin Size
@@ -59,13 +59,29 @@ Usually something along these lines:
     savepath = '\\Outputs\MVCO_Jan2017\'; 
     
 For each day in the filelist, the script optimizes our model and creates an output with variabes as follows: 
-Einterp - Interpolated light data for that day, values in (W m^{-2}) every 10 minutes begining at dawn. 
-CONC - 66 x 25 matrix. Observed concentrations of cells in each bin for each hour of the day, beginning at dawn. 
-simCONC - 66 x 25 matrix. Simulated concentrations of cells in each bin for each hour of the day according to best fit parameters. 
-simPROPS - 66 x 25 matrix. Simulated proportion of cells in each bin for each hour of the day according to best fit parameters. Each hour sums to 1. 
-allstarts - 
-modelfits - 
-modelresults - 
+Einterp - Interpolated light data for that day, values in (W m^{-2}) every 10 minutes begining at dawn. \ 
+CONC - 66 x 25 matrix. Observed concentrations of cells in each bin for each hour of the day, beginning at dawn. \ 
+simCONC - 66 x 25 matrix. Simulated concentrations of cells in each bin for each hour of the day according to best fit parameters. \ 
+simPROPS - 66 x 25 matrix. Simulated proportion of cells in each bin for each hour of the day according to best fit parameters. Each hour sums to 1. \ 
+modelfits - X by 17 matrix of all attempted model runs in the optimization process. Columns 1:14 are the parameters (details below). Column 15 has the negative log likelihood for each run. Column 16 is the division rate, and Column 17 is the ExitFlag from createOptimProblem for each run. \ 
+allstarts - X by 14 matrix of the initial parameter values for each model run \ 
+modelresults - 1 by 23 vector with results of optimization process. The first entry is the day in Matlab datenum form. Entries 2:15 are best-fit model parameters. modelresults(16) is the negative log likelihood. **modelresults(17) is the estimated division rate for the assemblage**, while modelresults(18:19) are the estimated division rates for each of the two subpopulations. modelresults(20:21) are the relative proportions of the two subpopulations at the end of the simulated day (as opposed to the starting proportions which is one of the parameters), and modelresults(23) is the ExitFlag from createOptimProblem for that best run. \ 
 
 
+Througout our modeling code the vector of parameters, theta, is ordered as follows: 
+    
+    gmax1=theta(1); %max fraction of cells growing into next size class, subpopn 1 \
+    b1=theta(2);  %shape parameter for division function, subpopn 1 \
+    E_star1=theta(3); %shape parameter of growth function (point where function switches from linear to constant), subpopn 1 \ 
+    dmax1=theta(4); %max fraction of cells able to divide in a given size class, subpopn 1 \ 
+    gmax2=theta(5); %max fraction of cells growing into next size class, subpopn 2 \ 
+    b2=theta(6); %shape parameter for division function, subpopn 2 \ 
+    E_star2=theta(7); %shape parameter of growth function (point where function switches from linear to constant), subpopn 2 \ 
+    dmax2=theta(8); %max fraction of cells able to divide in a given size class, subpopn 2 \ 
+    f=theta(9); %proportion parameter, specifies starting fraction of subpopn 1 \ 
+    m1=theta(10); %mean volume for starting cell size distribution, subpopn 1 \ 
+    m2=theta(11); %mean volume for starting cell size distribution, subpopn 2 \ 
+    sigma1=theta(12); %variance parameter for starting cell size distributions for popn 1 \ 
+    sigma2=theta(13); %variance parameter for starting cell size distributions for popn 2 \ 
+    s=theta(14); %overdispersion parameter for the Dirichlet-multinomial distribution \ 
 
