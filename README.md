@@ -92,7 +92,7 @@ In the Post_Modeling directory, you can find the results of our modeling process
 # Data 
 The data products used to generate the figures in our paper are available in the Figure_Data directory. Below are descriptions of the files and variables and some guidelines for how those were used to generate our figures. 
 
-Figure 1. 
+*Figure 1*  
 Data_Fig1.mat includes the following variables:   
     alleukmatdate \[all eukaryotes matlab dates] = This is a 1x91722 vector of all the times of FCB observations in our time series. Times are in Matlab Datenum form UTC. Consecutive observations are roughly hourly.   
     alleukrunavg \[all eukaryotes running average] = This is the 1x91722 vector of concentration in cells/mL of picoeukaryotes observed at each time point, as a 48 hour running average. The values were calculated using the script, mvco_running_average.m which is available in the Model_Essential_Scripts directory, and which adjusts for large gaps in time in the dataset.   
@@ -100,7 +100,7 @@ Data_Fig1.mat includes the following variables:
     daily_lossrates = this matrix is in the same form as daily_divrates, but the second column includes the calculated loss rates (division rate - observed net growth rate) for each day, rather than the division rates. The first column is the same as that of daily_divrates.  
 To calculate climatologies, see information on Figure 2.    
 
-Figure 2.     
+*Figure 2*    
 Note: Figure 2 describes climatologies for Synechococcus and Picoeukaryotes in terms of concentration, division rate, and estimates of Primary Productivity. Data_Fig2.mat includes the values for each day of the time series that are necessary for generating these climatologies. If only interested in the Climatological values, just take the averages of these matrices, e.g. plot(nanmean(daily_euk_conc')).     
 The following variables are all matrices of size 366x16. The rows correspond to day of year and the columns are each distinct years, begining with 2003 and ending with 2018.         
     daily_euk_conc = average concentration of eukaryotes (cells/mL) observed on each day.     
@@ -108,9 +108,16 @@ The following variables are all matrices of size 366x16. The rows correspond to 
     daily_euk_lossrate = loss rate (/day) estimate for picoeukaryote assemblage for each day.     
     euk_min_cell_vol = the minimum value attained on each day by the mode of the picoeukaryote cell size distribution. To calculate primary productivity estimates, this value is assumed to be the "neutral" size which cells roughly grow from and divide back to.    
     
-For each of the above, Data_Fig2.mat also includes the corresponding variables for Synechococcus. Where "euk" is replaced with "syn". For Synechococcus, the minimum cell volume is taken from the dawn hour only, rather than looking for the minimum over the course of the day, because the mode of the Syn size distribution tends not to decrease after dawn.    
+For each of the above, Data_Fig2.mat also includes the corresponding variables for Synechococcus, where "euk" is replaced with "syn". For Synechococcus, the minimum cell volume is taken from the dawn hour only, rather than looking for the minimum over the course of the day, because the mode of the Syn size distribution tends not to decrease after dawn.    
 
 Lastly, for your convencience, we've also included the products of the Primary Productivity climatology estimates for picoeukaryotes (daily_euk_PP) and synechococcus (daily_syn_PP) as 1x366 vectors containing values for each day of the year. These values are calculated from the above variables as described in the paper. 
     
+*Figure 3*  
+The data used to generate Figure 3 is in Data_Fig3.mat. As for Figure 2, we have chosen to make available all values for all days of the time series, though our figure only includes the averages for each year.   
+All variables contain hourly rates in the form of a 16x366x24 array with the first dimension indicating the year (between 2003 and 2018), the second dimension is the day of the year, and the third is the hour of the day (begining at dawn for that day).    
+    alleuk_obs_hr_mu \[all eukaryotes, observed hourly net growth rate (mu)] = observed net growth rate (/day) in picoeukaryote assemblage calculated by comparing from each hour to the following hour.  
+    alleuk_pred_hr_mu \[all eukaryotes, predicted hourly net growth rate] = hourly estimates of division rate (/day) calculated from the hourly changes in simulated population concentrations.   
+    alleuk_hr_loss \[all eukaryotes, hourly loss rate] = hourly estimates of cell loss rate (/day) calculated by subtracting net growth rate from division rate.  
+The corresponding variables for Synechococcus are available for each of the above, where "euk" is replaced with "syn". 
 
-    
+*Figure 4*    
