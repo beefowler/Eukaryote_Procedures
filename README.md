@@ -66,7 +66,7 @@ For each day in the filelist, the script optimizes our model and creates an outp
   simPROPS - 66 x 25 matrix. Simulated proportion of cells in each bin for each hour of the day according to best fit parameters. Each hour sums to 1.   
   modelfits - X by 17 matrix of all attempted model runs in the optimization process. Columns 1:14 are the parameters (details below). Column 15 has the negative log likelihood for each run. Column 16 is the division rate, and Column 17 is the ExitFlag from  createOptimProblem for each run.   
   allstarts - X by 14 matrix of the initial parameter values for each model run   
-  modelresults - 1 by 23 vector with results of optimization process. The first entry is the day in Matlab datenum form. Entries 2:15 are best-fit model parameters. modelresults(16) is the negative log likelihood. **modelresults(17) is the estimated division rate for the assemblage**, while modelresults(18:19) are the estimated division rates for each of the two subpopulations. modelresults(20:21) are  the relative proportions of the two subpopulations at the end of the simulated day (as opposed to the starting proportions which is one of the parameters), and modelresults(23) is the ExitFlag from createOptimProblem for that best run.    
+  modelresults - 1 by 23 vector with results of optimization process. The first entry is the day in Matlab datenum form. Entries 2:15 are best-fit model parameters. modelresults(16) is the negative log likelihood. **modelresults(17) is the estimated division rate for the assemblage**, while modelresults(18:19) are the estimated division rates for each of the two subpopulations. modelresults(20:21) are  the relative proportions of the two subpopulations at the end of the simulated day (as opposed to the starting proportions which is one of the parameters), and modelresults(22) is the ExitFlag from createOptimProblem for that best run. Modelresults(23) is the length of modelfits, or the number of model runs the optimization process tried.    
 
 
 Throughout our modeling code the vector of parameters, theta, is ordered as follows:  
@@ -87,7 +87,7 @@ Throughout our modeling code the vector of parameters, theta, is ordered as foll
     s=theta(14); %overdispersion parameter for the Dirichlet-multinomial distribution 
 
 # After Modeling
-In the Post_Modeling directory, you can find the results of our modeling process as well as the scripts we use to synthesize and analyize these results. 
+After the optimization process returned the best fit parameters and division rate estimates for each day, we organized the results by day and by year. For each year, we used the script GroupAYear2.m (which is available in the Post_Modeling directory) to generate a movie which compares the best-fit simulations to the observed data. Days for which the model was unable to reproduce the observed dynamics in the size distribution (1.1%) were trimmed. We used the script Climatology.m to group the results by day of the year in order to generate climatological averages. Our results are available in the Data directory. Data products are grouped by Figure (Roughly, Fig. 1 is the time series of daily values for picoeukaryotes, Fig. 2 has daily values for Syn. and Euks as well as Primary Productivity estimates, Fig. 3 has hourly values, and Fig. 4 includse daily temperature and sunlight. More details below). Additionally, the complete outputs from the Model Optimization process are available for the time series in the ModelResults_All.mat file. In this file, there is a matrix which contains the modelresults vector for each day of the time series with columns ordered as described above. 
 
 # Data 
 The data products used to generate the figures in our paper are available in the Figure_Data directory. Below are descriptions of the files and variables and some guidelines for how those were used to generate our figures. 
@@ -121,3 +121,7 @@ All variables contain hourly rates in the form of a 16x366x24 array with the fir
 The corresponding variables for Synechococcus are available for each of the above, where "euk" is replaced with "syn". 
 
 *Figure 4*    
+The data used to generate Figure 4 in hte manuscript. Once again, daily values are available for each day of the time series, while the figure only includes the climatological values. 
+Daily_sunlight - 366x16 matrix with the mean incident radation (W m^(-2)) for each day as measured by the PAR sensor at the MVCO Meteorological mast. 
+Daily_temp - 366x16 matrix with the mean water temperature (%deg;C) as measured at MVCO. 
+More details abou these measurements are available here [https://www.whoi.edu/website/mvco/meteorological-data/]. 
