@@ -89,7 +89,7 @@ Throughout our modeling code the vector of parameters, theta, is ordered as foll
 # After Modeling
 After the optimization process returned the best fit parameters and division rate estimates for each day, we organized the results by day and by year. For each year, we used the script GroupAYear2.m (which is available in the Post_Modeling directory) to generate a movie which compares the best-fit simulations to the observed data. Days for which the model was unable to reproduce the observed dynamics in the size distribution (1.1%) were trimmed. We used the script Climatology.m to group the results by day of the year in order to generate climatological averages. Our results are available in the Data directory. Data products are grouped by Figure (Roughly, Fig. 1 is the time series of daily values for picoeukaryotes, Fig. 2 has daily values for Syn. and Euks as well as Primary Productivity estimates, Fig. 3 has hourly values, and Fig. 4 includse daily temperature and sunlight. More details below). Additionally, the complete outputs from the Model Optimization process are available for the time series in the ModelResults_All.mat file. In this file, there is a matrix which contains the modelresults vector for each day of the time series with columns ordered as described above. 
 
-# Data 
+# Figure Data 
 The data products used to generate the figures in our paper are available in the Figure_Data directory. Below are descriptions of the files and variables and some guidelines for how those were used to generate our figures. 
 
 *Figure 1*  
@@ -102,7 +102,7 @@ To calculate climatologies, see information on Figure 2.
 
 *Figure 2*    
 Note: Figure 2 describes climatologies for Synechococcus and Picoeukaryotes in terms of concentration, division rate, and estimates of Primary Productivity. Data_Fig2.mat includes the values for each day of the time series that are necessary for generating these climatologies. If only interested in the Climatological values, just take the averages of these matrices, e.g. plot(nanmean(daily_euk_conc')).     
-The following variables are all matrices of size 366x16. The rows correspond to day of year and the columns are each distinct years, begining with 2003 and ending with 2018.         
+The following variables are all matrices of size 366x16. The rows correspond to day of year and the columns are each distinct years, begining with 2003 and ending with 2018. NaNs indicate days without data.          
     daily_euk_conc = average concentration of eukaryotes (cells/mL) observed on each day.     
     daily_euk_divrate = division rate (/day) estimate for picoeukaryote assemblage from model for each day.     
     daily_euk_lossrate = loss rate (/day) estimate for picoeukaryote assemblage for each day.     
@@ -121,7 +121,8 @@ All variables contain hourly rates in the form of a 16x366x24 array with the fir
 The corresponding variables for Synechococcus are available for each of the above, where "euk" is replaced with "syn". 
 
 *Figure 4*    
-The data used to generate Figure 4 in hte manuscript. Once again, daily values are available for each day of the time series, while the figure only includes the climatological values. 
-Daily_sunlight - 366x16 matrix with the mean incident radation (W m^(-2)) for each day as measured by the PAR sensor at the MVCO Meteorological mast. 
-Daily_temp - 366x16 matrix with the mean water temperature (%deg;C) as measured at MVCO. 
-More details abou these measurements are available here [https://www.whoi.edu/website/mvco/meteorological-data/]. 
+The data used to generate Figure 4 in the manuscript. Once again, daily values are available for each day of the time series, while the figure only includes the climatological values. For each of the following matrices, each row is a year starting with 2003, and each column is the day of the year. NaNs indicate days without data. 
+Daily_sunlight - 366x16 matrix with the mean incident radation (W m^(-2)) for each day as measured by the PAR sensor at the MVCO Meteorological mast.
+Daily_temp - 366x16 matrix with the daily mean seawater temperature (%deg;C). Each row is a year starting with 2003 and each column is the day of the year. NaNs indicate days without data. 
+daily_euk_divrate - 366x16 matrix with daily estimates of division rate for the picoeukaryote assemblage. Same as in Figure 2 data. 
+More details about the environmental measurements are available at the [MVCO site](https://www.whoi.edu/website/mvco/meteorological-data/). 
