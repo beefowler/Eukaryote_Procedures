@@ -4,7 +4,7 @@
         %Choosing a random subset of days from different times of year
         %Doubling the Volbins vector so that we have twice the resolution 
         %Recreating the model inputs according to that Volbins
-        %Fitting the model to the new input. 
+        %Fitting (a modified, half-timestep) model to the new input. 
         %Comparing the simulation dynamics and division rate estimates across the two models. 
 
         
@@ -30,11 +30,11 @@
 
 %here are the inputs 
 year2do = 2017;
-beadpath = '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/data/processed/beads/'; 
-modelpath =   '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/euk_model/doublebins_inputs/'; 
-datapath = '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/';
-mergedpath0 = '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/data/processed/grouped/merged/'; 
-groupedpath =   '//Sosiknas1/Lab_data/MVCO/FCB/MVCO_Jan2017/data/processed/grouped/'; 
+beadpath = '///MVCO/FCB/MVCO_Jan2017/data/processed/beads/'; 
+modelpath =   '///MVCO/FCB/MVCO_Jan2017/euk_model/doublebins_inputs/'; 
+datapath = '//MVCO/FCB/MVCO_Jan2017/';
+mergedpath0 = '//MVCO/FCB/MVCO_Jan2017/data/processed/grouped/merged/'; 
+groupedpath =   '//MVCO/FCB/MVCO_Jan2017/data/processed/grouped/'; 
 plotflag = 1;
 
 %volbins = double_volbins; 
@@ -49,17 +49,17 @@ plotflag = 1;
 
 % 4 ) Now we want to run ModelMVCO using our new inputs 
 
-%filelist = dir('\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\*data.mat'); 
+%filelist = dir('\\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\*data.mat'); 
 %keyboard % double check that the above is the list of days you want to do! Not all the days. 
-%filepath = '\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\' ; 
-%savepath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\doublebin_outputs\';   
+%filepath = '\\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\' ; 
+%savepath = '\\MVCO\FCB\pico_euk_model\doublebin_outputs\';   
 
 %ModelMVCO
 
 % 5 ) now we see what happened. 
 % 
-outpath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_Jan2017\'; 
-new_outpath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\doublebin_halftime_outputs3\'; 
+outpath = '\\Overflow_Outputs_BLF\MVCO_Jan2017\'; 
+new_outpath = '\\MVCO\FCB\pico_euk_model\doublebin_halftime_outputs3\'; 
 
 dataframe = zeros(10, 2); 
 
@@ -98,7 +98,7 @@ compare_params = 1; %set to do or not
 if compare_params == 1
 for i = 1:length(days)
     
-    cd 'C:\Users\blfow\Desktop\Paper_Repository_Prep\Clone\Eukaryote_Procedures\Before_Modeling'
+    cd 'C:\Users\blfow\Desktop\Eukaryote_Procedures\Before_Modeling'
     
     n = days(i)
     figure, clf 
@@ -207,7 +207,7 @@ for i = 1:length(days)
     hr1 = 1; hr2 = 25; 
     N_dist = CONC; 
     
-    cd '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\EukWork\Half_timestep'
+    cd '\\\MVCO\FCB\pico_euk_model\EukWork\Half_timestep'
     [dirsample, simdist,Vt1,Vt2]=simdata_dirichlet_sample(Einterp,N_dist,theta,double_volbins,hr1,hr2);
     dirsampledist = dirsample ./ sum(dirsample); 
     
@@ -292,39 +292,3 @@ for i = 1:length(days)
     savefig(['DoubleBinTest' datestr(day) '.fig'])
 end
 end
-
-%let's also compare the goodness of fit through MSE 
-goodness = zeros(10, 2); 
-nlklihood = zeros(10, 2); 
-
-for i = 1:10
-    n = days(i); 
-  
-    eval(['load ' outpath 'day' num2str(n) 'output.mat'])
- 
-    Nvec = sum(CONC);
-    PROPS = CONC./Nvec; 
-    sse = sum(sum((CONC-(simPROPS.*Nvec)).^2)); 
-    goodness(i,1) = sse/(66*25); 
-    subplot(1,2,1)
-    
-    nlklihood(i, 1) = modelresults(16); 
-    
-    
-    eval(['load ' new_outpath 'day' num2str(n) 'output.mat'])
-    
-    Nvec = sum(CONC); 
-    PROPS = CONC./Nvec; 
-    sse = sum(sum((CONC-(simPROPS.*Nvec)).^2)); 
-    goodness(i,2) = sse/(131*25);
-    subplot(1,2,2)
-    
-    nlklihood(i, 2) = modelresults(16); 
-
-end
-
-
-figure
-scatter(goodness(:,1), goodness(:,2))
-ylabel('MSE from Double Bins')
-xlabel('MSE from Original Model')
