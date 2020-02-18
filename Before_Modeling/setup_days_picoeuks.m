@@ -7,10 +7,10 @@
 %used for the entire day. Beadmatches come from smoothed (moving average) mean bead SSC
 %using 4 surrounding points to smooth
 %Code further modified to use as 'one set' of scripts for all the years
-%with user changed inputs for each year. Wrapper script is divmodel_setup.m
+%with user changed inputs for each year.
 
 %%
-CONST = 0; % Constant = 0 for dawnstart, 8 for dawnplus 8 etc. Where we want to start days
+CONST = 0; % Constant = 0 for starting at dawn, 8 for dawn plus 8 etc. Where we want to start each day.
 
 %% first, load bead data:
 eval(['load ' beadpath 'beadresults.mat']);
@@ -156,7 +156,7 @@ dayind = 1;
 day = daylist(dayind);
 w=find_yearday(day);
 
-dielstarthr = dawn(dawn(:,1) == day,2) + CONST;  %%%% ADD CONSTANT TO TEST 
+dielstarthr = dawn(dawn(:,1) == day,2) + CONST;  %%%% adds constant if given
 if isnan(dielstarthr), dielstarthr = 0; end;
 if isempty(dielstarthr), dielstarthr = 0; end;
 offsetdate = cellresults(:,1) - dielstarthr/24;  %reset so diel start = 0 hour of day

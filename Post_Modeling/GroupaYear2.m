@@ -6,11 +6,11 @@ savename = 'ModelOutputs_2006.mat';
 varname = 'AllResults_2006'; 
 AllResults_2006 = []; 
 
-filelist = dir('\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_May2006_Redo2019\da*output.mat');
-filepath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_May2006_Redo2019\'; 
+filelist = dir('\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_May2006_2019\da*output.mat');
+filepath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_May2006_2019\'; 
 
 %set up for making video
-Writerobj1 = VideoWriter('ModelOutputs_2006_redo.avi');
+Writerobj1 = VideoWriter('ModelOutputs_2006.avi');
 open(Writerobj1); 
 
 obs_conc = zeros(1,25); 

@@ -1,27 +1,22 @@
 %In this script, we will analyze a subset of days with some typtical
-%subpopulaiton behavior. 
+%subpopulation behavior. 
 %the goal will be to generate supplementary material that demonstrates the
-%details of subpopulation simulations, parameters, and maybe eventually to
+%details of subpopulation simulations, parameters, and to
 %use these days as examples that we refit the model to. 
 
-%choose what to do: 
-plotting = 0; 
-makesimulations = 0; 
-
-%Select the days to work with, could always add more later.  
-%These are all from 2017. 
-days =  [736808  % two wide populations, don’t grow much
-        736838  % two populations, one grows one doesn’t
-        736873 % model uses second population to capture noise
-        736924]; % two populations overlap well 
-
-%% Plotting
-%Now let's go load the model inputs and outputs for a day 
 outpath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_Jan2017\' ; 
 inpath = '\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\'; 
 
+plotting = 0; 
+makesimulations = 0 ; 
+
+%These are all from 2017. 
+days =  [736808  % two distinct populations, don’t grow much
+        736838  % two overlapping populations, one grows one doesn't really
+        736873]; % one clear dist, one very wide, maybe to capture noise?
+
 if plotting == 1
-    %n = days(1) %useful for testing code on one day first
+        
     %go through each day and plot
     for n = days'
     figure, clf 
@@ -32,9 +27,16 @@ if plotting == 1
     hr1 = 1; hr2 = 25; 
     N_dist = CONC; 
 
-    [dirsample, simdist,Vt1,Vt2]=simdata_dirichlet_sample(Einterp,N_dist,theta,volbins,hr1,hr2);
-    dirsampledist = dirsample ./ sum(dirsample); 
-
+    [~, simdist,Vt1,Vt2]=simdata_dirichlet_sample(Einterp,N_dist,theta,volbins,hr1,hr2);
+    %get a sample from simdata as mnrnd rather than dirichlet. 
+    % This elliminates a source of noise for our refitting process. 
+    q = hr2-hr1; 
+    dirsampledist=zeros(length(volbins),q);
+    for i=1:q+1
+        dirsampledist(:,i)=mnrnd(round(sum(N_dist(:,hr1-1+i))),simdist(:,i));
+    end
+    dirsampledist = dirsampledist ./ sum(dirsampledist);
+        
     %make division and growth functions for subpopulation 1 
         helpful = volbins - volbins(5);
     del1=(theta(4).*helpful.^theta(2))./(1+(helpful.^theta(2))); 
@@ -43,35 +45,39 @@ if plotting == 1
     ind=find(Einterp < theta(3));
     y1(ind)=(theta(1)/theta(3)) * Einterp(ind); 
 
-    %subpopulatino 2 
+    %subpopulation 2 
     del2=(theta(8).*helpful.^theta(6))./(1+(helpful.^theta(6)));
-    del2(1:5) = [0 0 0 0 0] %our change which limits small cell divisino 
+    del2(1:5) = [0 0 0 0 0]; %our 2019 change which limits small cell division 
     y2=theta(5)*ones(size(Einterp));
     ind=find(Einterp < theta(7));
     y2(ind)=(theta(5)/theta(7)) * Einterp(ind);
 
     subplot(2,3,1)
         h = imagesc(1:25, 1:length(volbins), Vhists); 
+        yticks([6 31 56])
+        yticklabels([0.06 2 64])
         set(gca, 'Ydir', 'normal')
         set(h, 'AlphaData', ~isnan(Vhists)); 
         xlabel('Hour after dawn')
-        ylabel('Cell size class')
+        ylabel('Cell volume (\mum^{3})')
         title(['Observed data'])
 
     subplot(2,3,2)
         h = imagesc(1:25, 1:length(volbins), simdist); 
+        yticks([6 31 56])
+        yticklabels([0.06 2 64])
         set(gca, 'Ydir', 'normal')
         set(h, 'AlphaData', ~isnan(simdist)); 
         xlabel('Hour after dawn')
-        ylabel('Cell size class')
         title('Simulated distribution')
 
     subplot(2,3,3)
         h = imagesc(1:25, 1:length(volbins), dirsampledist); 
+        yticks([6 31 56])
+        yticklabels([0.06 2 64])
         set(gca, 'Ydir', 'normal')
         set(h, 'AlphaData', ~isnan(dirsampledist)); 
         xlabel('Hour after dawn')
-        ylabel('Cell size class')
         title('Simulated data') 
 
 
@@ -80,8 +86,11 @@ if plotting == 1
         hold on 
         plot(1:length(volbins),Vt1(:,1),'color',[0 0.5 1], 'linewidth',1.5)
         plot(1:length(volbins),Vt2(:,1),'color',[0 0 0.8], 'linewidth', 1.5)
+        axis([0 66 0 .1])
+        xticks([6 31 56])
+        xticklabels([0.06 2 64])
         title('Initial distributions')
-        xlabel('Size class')
+        xlabel('Cell volume (\mum^{3})')
         ylabel('Proportion')    
 
     subplot(2,3,5)
@@ -91,7 +100,7 @@ if plotting == 1
         hold on 
         plot(Einterp(iy),y2(iy),'.-','color',[0 0 0.8],'markersize',8);
         line([max(Einterp) max(Einterp)], ylim,'color',[0.4 0.4 0.4])
-        ylabel('Fraction of cells growing')
+        ylabel('Growth fraction')
         xlabel('Radiation (W m^{-2})')
         title('Growth functions')
 
@@ -99,7 +108,8 @@ if plotting == 1
         plot(1:length(volbins), del1, '.-', 'color', [0 0.5 1], 'markersize',8);
         hold on 
         plot(1:length(volbins),del2,'.-','color',[0 0 0.8],'markersize',8);
-
+        xticks([6 31 56])
+        xticklabels([0.06 2 64])
         if n == 736808
             axis([0 66, 0 0.001])
             text(10, 0.0006, {['\mu_1: ' num2str(round(modelresults(18)*100)/100)];...
@@ -117,14 +127,14 @@ if plotting == 1
                 ['\mu : ' num2str(round(modelresults(17)*100)/100)]});
         end
 
-        ylabel('Fraction of cells dividing')
-        xlabel('Size class')
+        ylabel('Division fraction')
+        xlabel('Cell volume (\mum^{3})')
         title('Division functions')
 
     sgtitle(datestr(day))
 
     set(gcf, 'position', [93 89 952 529]) 
-    savefig(['details_' datestr(day) '.fig'])
+   savefig(['highres_' datestr(day) '.fig'])
 
 
     end %for n = days
@@ -134,9 +144,9 @@ end %if plotting == 1
 %Now we want to save the outputs of these simulations such that they can
 % be used as inputs for model fitting
 if makesimulations ==1
-outpath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_Jan2017\' ; 
-inpath = '\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\'; 
-savepath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\Simulated_inputs\' ; 
+outpath = '\\MVCO_Jan2017\euk_model\outputs\' ; 
+inpath = '\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\'; 
+savepath = '\\pico_euk_model\Simulated_inputs_high_res\' ; 
 
 for n = days'
 %load inputs and relevant outputs
@@ -149,9 +159,16 @@ theta = modelresults(2:15);
 hr1 = 1; hr2 = 25; 
 N_dist = CONC; 
 
-[dirsample, simdist,Vt1,Vt2]=simdata_dirichlet_sample(Einterp,N_dist,theta,volbins,hr1,hr2);
-dirsampledist = dirsample ./ sum(dirsample); 
-
+[~, simdist,Vt1,Vt2]=simdata_dirichlet_sample(Einterp,N_dist,theta,volbins,hr1,hr2);
+    %let's try to just get a sample from simdata as mnrnd rather than
+    %dirichlet 
+    q = hr2-hr1; 
+    dirsampledist=zeros(length(volbins),q);
+    for i=1:q+1
+        dirsampledist(:,i)=mnrnd(round(sum(N_dist(:,hr1-1+i))),simdist(:,i));
+    end
+    dirsampledist = dirsampledist ./ sum(dirsampledist);
+    
 %Saving simulations in data format 
 Vhists = dirsampledist;    
 N_dist = dirsampledist .* cellsperml; 
@@ -164,9 +181,11 @@ end
 end
 
 %% Compare Results
+%of data fit to observations, vs data fit to simulated observations based
+%on best fit model
 
-siminpath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\Simulated_inputs\'; 
-simoutpath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\Simulated_outputs\'; 
+siminpath = '\\pico_euk_model\Simulated_inputs_high_res\'; 
+simoutpath = '\\pico_euk_model\Simulated_outputs_high_res\'; 
 
 
 %First we'll just compare the division rate estimates. 
@@ -206,7 +225,7 @@ xlabel('"True" Division Rate (d^{-1})')
 %how about we just add a row to the previous figure. 
 
 for i = 1:length(days)
-    n = days(i)
+    n = days(i); 
     figure, clf 
     eval(['load ' inpath 'day' num2str(n) 'data.mat'])
     eval(['load ' outpath 'day' num2str(n) 'output.mat'])
@@ -222,41 +241,49 @@ for i = 1:length(days)
     %make division and growth functions for subpopulation 1 
     helpful = volbins - volbins(5); %saves some typing
     del1=(theta(4).*helpful.^theta(2))./(1+(helpful.^theta(2))); 
-    del1(1:5) = [0 0 0 0 0]
+    del1(1:5) = [0 0 0 0 0];
     y1=theta(1)*ones(size(Einterp)); 
     ind=find(Einterp < theta(3));
     y1(ind)=(theta(1)/theta(3)) * Einterp(ind); 
 
     %subpopulation 2 
     del2=(theta(8).*helpful.^theta(6))./(1+(helpful.^theta(6)));
-    del2(1:5) = [0 0 0 0 0]
+    del2(1:5) = [0 0 0 0 0];
     y2=theta(5)*ones(size(Einterp));
     ind=find(Einterp < theta(7));
     y2(ind)=(theta(5)/theta(7)) * Einterp(ind);
 
     subplot(3,3,1)
         h = imagesc(1:25, 1:length(volbins), Vhists); 
+        yticks([6 31 56])
+        yticklabels([0.06 2 64])
+        caxis([0 0.1])
         set(gca, 'Ydir', 'normal')
         set(h, 'AlphaData', ~isnan(Vhists)); 
         xlabel('Hour after dawn')
-        ylabel('Cell size class')
+        ylabel('Cell Volume (\mum^{3})')
         title(['Observed data'])
 
     subplot(3,3,2)
         h = imagesc(1:25, 1:length(volbins), simdist); 
+        caxis([0 0.1])
+        yticks([6 31 56])
+        yticklabels([0.06 2 64])
         set(gca, 'Ydir', 'normal')
         set(h, 'AlphaData', ~isnan(simdist)); 
         xlabel('Hour after dawn')
-        ylabel('Cell size class')
         title('Simulated distribution')
 
     subplot(3,3,3)
         h = imagesc(1:25, 1:length(volbins), dirsampledist); 
+        caxis([0 0.1])
+        yticks([6 31 56])
+        yticklabels([0.06 2 64])
         set(gca, 'Ydir', 'normal')
         set(h, 'AlphaData', ~isnan(dirsampledist)); 
         xlabel('Hour after dawn')
-        ylabel('Cell size class')
         title('Simulated data') 
+        colorbar
 
 
     subplot(3,3,4)
@@ -264,8 +291,11 @@ for i = 1:length(days)
         hold on 
         plot(1:length(volbins),Vt1(:,1),'color',[0 0.5 1], 'linewidth',1.5)
         plot(1:length(volbins),Vt2(:,1),'color',[0 0 0.8], 'linewidth', 1.5)
+        axis([0 66 0 .1])
+        xticks([6 31 56])
+        xticklabels([0.06 2 64])
         title('Initial distributions')
-        xlabel('Size class')
+        xlabel('Cell volume (\mum^{3})')
         ylabel('Proportion')    
 
     subplot(3,3,5)
@@ -275,7 +305,7 @@ for i = 1:length(days)
         hold on 
         plot(Einterp(iy),y2(iy),'.-','color',[0 0 0.8],'markersize',8);
         line([max(Einterp) max(Einterp)], ylim,'color',[0.4 0.4 0.4])
-        ylabel('Fraction of cells growing')
+        ylabel('Growth fraction')
         xlabel('Radiation (W m^{-2})')
         title('Growth functions')
 
@@ -283,7 +313,9 @@ for i = 1:length(days)
         plot(1:length(volbins), del1, '.-', 'color', [0 0.5 1], 'markersize',8);
         hold on 
         plot(1:length(volbins),del2,'.-','color',[0 0 0.8],'markersize',8);
-
+        xticks([6 31 56])
+        xticklabels([0.06 2 64])
+        
         if n == 736808
             axis([0 66, 0 0.001])
             text(10, 0.0006, {['\mu_1: ' num2str(round(modelresults(18)*100)/100)];...
@@ -300,8 +332,8 @@ for i = 1:length(days)
                 ['\mu_2: ' num2str(round(modelresults(19)*100)/100)];
                 ['\mu : ' num2str(round(modelresults(17)*100)/100)]});
         end
-        ylabel('Fraction of cells dividing')
-        xlabel('Size class')
+        ylabel('Division fraction')
+        xlabel('Cell volume (\mum^{3})')
         title('Division functions')
 
         
@@ -317,7 +349,7 @@ for i = 1:length(days)
     helpful = volbins - volbins(5);
     %make division and growth functions for subpopulation 1 
     del1=(theta(4).*helpful.^theta(2))./(1+(helpful.^theta(2))); 
-    del1(1:5) = [0 0 0 0 0]
+    del1(1:5) = [0 0 0 0 0];
     y1=theta(1)*ones(size(Einterp)); 
     ind=find(Einterp < theta(3));
     y1(ind)=(theta(1)/theta(3)) * Einterp(ind); 
@@ -334,8 +366,10 @@ for i = 1:length(days)
         hold on 
         plot(1:length(volbins),Vt1(:,1),'color',[1 0.5 0.5], 'linewidth',1.5)
         plot(1:length(volbins),Vt2(:,1),'color',[.6 .1 .2], 'linewidth', 1.5)
-        title('Initial distributions')
-        xlabel('Size class')
+        axis([0 66 0 .1])
+        xticks([6 31 56])
+        xticklabels([0.06 2 64])
+        xlabel('Cell volume (\mum^{3})')
         ylabel('Proportion')    
 
     subplot(3,3,8)
@@ -345,18 +379,23 @@ for i = 1:length(days)
         hold on 
         plot(Einterp(iy),y2(iy),'.-','color',[.6 .1 .2],'markersize',8);
         line([max(Einterp) max(Einterp)], ylim,'color',[0.4 0.4 0.4])
-        ylabel('Fraction of cells growing')
+        ylabel('Growth fraction')
         xlabel('Radiation (W m^{-2})')
-        title('Growth functions')
         if n == 736838
             axis([0 800 0 0.3])
         end
+           
+        %these are for moving to side once made
+         h = title({'Model Fit to'; 'Observed Data'}); 
+         set(h,'Rotation',90)
 
     subplot(3,3,9)
         plot(1:length(volbins), del1, '.-', 'color', [1 0.5 0.5], 'markersize',8);
         hold on 
         plot(1:length(volbins),del2,'.-','color',[.6 .1 .2],'markersize',8);
-
+        xticks([6 31 56])
+        xticklabels([0.06 2 64])
+        
         if n == 736808
             axis([0 66, 0 0.001])
             text(10, 0.0006, {['\mu_1: ' num2str(round(modelresults(18)*100)/100)];...
@@ -373,14 +412,16 @@ for i = 1:length(days)
                 ['\mu_2: ' num2str(round(modelresults(19)*100)/100)];
                 ['\mu : ' num2str(round(modelresults(17)*100)/100)]});
         end
-        ylabel('Fraction of cells dividing')
-        xlabel('Size class')
-        title('Division functions')
+        ylabel('Division fraction')
+        xlabel('Cell volume (\mum^{3})')
+        
+        %these are for moving to side once made
+        k = title({'Model Fit to'; 'Simulated Data'}) ; 
+        set(k,'Rotation',90)
         
     sgtitle(datestr(day))
     set(gcf, 'position', [8 2 936 800]) 
-    
-    savefig(['refit' datestr(day) '.fig'])
-end
 
+    savefig(['refit_high_res' datestr(day) '.fig'])
+end
 

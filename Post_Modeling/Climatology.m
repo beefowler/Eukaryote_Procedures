@@ -1,8 +1,8 @@
 %Code used to calculate climatologies
-% by assigning daily values to their corresponding day of the year 
+%by assigning daily values to their corresponding day of the year 
 
-filelist = dir('YearSummaries_Culled/*.mat');
-filepath = 'YearSummaries_Culled/'; 
+filelist = dir('YearSummaries/*.mat');
+filepath = 'YearSummaries/'; 
 
 allconc = zeros(366, 16)*NaN; 
 alldivrates = zeros(366, 16)*NaN; 
