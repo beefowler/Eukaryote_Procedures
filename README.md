@@ -19,7 +19,7 @@ Our model optimizations were all run on MATLAB R2018a, but R2019a also seems to 
 
 
 # Before Modeling
-In this section we describe the steps we took to generate the model inputs from the raw FCB data. The scripts used are available in the Before_Modeling directory. Please contact us if you would like to work from the model inputs or other upstream data products. 
+In this section we describe the steps we took to generate the model inputs from the FCB data. The scripts used are available in the Before_Modeling directory. Please contact us if you would like to work from the model inputs or other upstream data products. 
 
 Our value for the volbins vector, which is used to group cells into the size bins, can be found in Before_Modeling/Volbins.mat. If volbins is changed significantly, other modifications to the model scripts need to be considered. See below section on Model Sensitivity to Bin Size for more details. 
 
@@ -86,10 +86,10 @@ Throughout our modeling code the vector of parameters, theta, is ordered as foll
     sigma2=theta(13); %variance parameter for starting cell size distributions for popn 2  
     s=theta(14); %overdispersion parameter for the Dirichlet-multinomial distribution 
 
-# After Modeling and Data Products
+# After Modeling & Data Products
 After the optimization process returned the best fit parameters and division rate estimates for each day, we organized the results by day and by year. For each year, we used the script GroupAYear2.m (which is available in the Post_Modeling directory) to generate a movie which compares the best-fit simulations to the observed data. Days for which the model was unable to reproduce the observed dynamics in the size distribution (1.1%; often due to apparent discontinuities in the size distribution) were trimmed. We used the script Climatology.m to group the results by day of the year in order to generate climatological averages. Our results are available in the Data directory. Data products are grouped by their corresponding figures in the manuscript and are described below. 
 
-*All Model Results*
+*All Model Results*     
 The complete outputs from the Model Optimization process are available in the ModelResults_All.mat file. In this file, there is a matrix which contains the modelresults vector for each day of the time series with columns organized as described above. 
 
 *Figure 1*  
@@ -123,7 +123,7 @@ The corresponding variables for Synechococcus are available for each of the abov
 *Figure 4*    
 The data used to generate Figure 4 in the manuscript. Once again, daily values are available for each day of the time series, while the figure only includes the climatological values. For each of the following matrices, each row is a year starting with 2003, and each column is the day of the year. NaNs indicate days without data. 
 Daily_sunlight - 366x16 matrix with the mean incident radation (W m^(-2)) for each day as measured by the PAR sensor at the MVCO Meteorological mast.
-Daily_temp - 366x16 matrix with the daily mean seawater temperature (%deg;C). Each row is a year starting with 2003 and each column is the day of the year. NaNs indicate days without data. 
+Daily_temp - 366x16 matrix with the daily mean seawater temperature (&deg;C). Each row is a year starting with 2003 and each column is the day of the year. NaNs indicate days without data. 
 daily_euk_divrate - 366x16 matrix with daily estimates of division rate for the picoeukaryote assemblage. Same as in Figure 2 data. 
 More details about the environmental measurements are available at the [MVCO site](https://www.whoi.edu/website/mvco/meteorological-data/). 
 
