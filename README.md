@@ -45,7 +45,7 @@ N_dist - 66 x 25 matrix. Counts of cells observed in each volume bin for each ho
 Vhists - 66 x 25 matrix. Proportion of cells in each volume bin for each hour of the day (each hour sums to 1).   
 
 
-Model Sensitivity to Bin Size
+Model Sensitivity to Bin Size     
 Also in Before_Modeling/ is a folder called Test_BinResolution. Here, you can find the code that we used to test the sensitivity of our model to a change in the volume bin sizes. For a random subset of ten days in 2017, we redid the model setup described above with twice the number of volume bins over the same range of cell size. In order to properly compare this to the original model results, we needed to run our model with half the timestep (since cells can move up at most one size class per timestep, they would otherwise be prevented from growing as quickly as before). The code for that slighly modified model is in the Half_Timestep_Model folder, the test procedure is in the test_bin_resolution.m file and the results of our test can be seen in the ten .fig files. 
 
 # Optimizing Model 
@@ -127,7 +127,7 @@ Daily_temp - 366x16 matrix with the daily mean seawater temperature (%deg;C). Ea
 daily_euk_divrate - 366x16 matrix with daily estimates of division rate for the picoeukaryote assemblage. Same as in Figure 2 data. 
 More details about the environmental measurements are available at the [MVCO site](https://www.whoi.edu/website/mvco/meteorological-data/). 
 
-Parameter Estimates from Known Values
+Parameter Estimates from Known Values     
 Also in the Post_Modeling folder is a script called subpop_case_studies_higher_res.m, which was used to generate Figures S9-S11 in the SI Appendix. This script focuses on three days, which were chosen to be "case studies" and are representative of the most common ways the two subpopulations are fit to the observed picoeukaryote dynamics at MVCO. The script plots the details of these subpopulation's behavior and parameter values, saves the optimized model outputs in the form of our model inputs, and then reruns the optimization process on these newly generated simulated data. The details of the second optimization are also plotted in the supplementary figures, such that we can compare the model output to the known population behavior and parameter values of a simulated data set. 
 
 
