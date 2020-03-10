@@ -1,5 +1,5 @@
 %This is a script to test whether our volume bins are well resolved
-%Prompted by the comments of Reviewer 2, we will test to see that the number of volume bins we selected correctly resolves the dynamics. 
+%Prompted by the comments of Reviewer 1, we will test to see that the number of volume bins we selected correctly resolves the dynamics. 
     %We will do this by 
         %Choosing a random subset of days from different times of year
         %Doubling the Volbins vector so that we have twice the resolution 

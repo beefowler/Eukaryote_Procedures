@@ -1,6 +1,6 @@
-%filelist = dir('\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2010\euk_model\dawnstart_inputs_2019\*data.mat');
-%filepath = '\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2010\euk_model\dawnstart_inputs_2019\';
-%savepath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_Jan2010_Redo2019\'; 
+%filelist = dir('\\MVCO\FCB\MVCO_Jan2010\euk_model\dawnstart_inputs_2019\*data.mat');
+%filepath = '\\MVCO\FCB\MVCO_Jan2010\euk_model\dawnstart_inputs_2019\';
+%savepath = '\\Overflow_Outputs_BLF\MVCO_Jan2010\'; 
 
 %start while loop 
 i = 1; 

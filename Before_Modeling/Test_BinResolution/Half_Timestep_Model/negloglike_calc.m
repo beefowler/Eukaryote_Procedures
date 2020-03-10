@@ -9,7 +9,7 @@ function [prob]=loglike_DMN_14params_phours_plateau(Einterp,CONC,theta,volbins,h
 %The inputs are as follows:
 
 %Einterp - interpolated light data for every 10 min of the day (W/m2)
-%COUNTS = N_dist = number of counts of cells in each size class as specified by volbins
+%CONC = N_dist = concentration of cells in each size class as specified by volbins
 %volbins - cell size classes (micrometers cubed)
 %hr1 and hr2 refer to the starting and ending hour of the portion of day
 %you want to fit. In the paper, we've used hr1=7 hours after dawn and

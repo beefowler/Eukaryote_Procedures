@@ -1,8 +1,8 @@
 %% NOTE: THIS IS IN HALF_TIMESTEP FOLDER! Only use for double_bins test
 
-filelist = dir('\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\*data.mat');
-filepath = '\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\';
-savepath = '\\sosiknas1\Lab_data\MVCO\FCB\pico_euk_model\doublebin_halftime_outputs3\'; 
+filelist = dir('\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\*data.mat');
+filepath = '\MVCO\FCB\MVCO_Jan2017\euk_model\doublebins_inputs\';
+savepath = '\MVCO\FCB\pico_euk_model\doublebin_halftime_outputs3\'; 
 
 %start while loop -
 i = 1; 

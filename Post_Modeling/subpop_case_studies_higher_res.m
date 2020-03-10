@@ -4,8 +4,8 @@
 %details of subpopulation simulations, parameters, and to
 %use these days as examples that we refit the model to. 
 
-outpath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_Jan2017\' ; 
-inpath = '\\sosiknas1\Lab_data\MVCO\FCB\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\'; 
+outpath = '\MVCO_Jan2017\' ; %This is where we saved the original model outputs
+inpath = '\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\'; %this is where we saved the model inputs
 
 plotting = 0; 
 makesimulations = 0 ; 
@@ -38,7 +38,7 @@ if plotting == 1
     dirsampledist = dirsampledist ./ sum(dirsampledist);
         
     %make division and growth functions for subpopulation 1 
-        helpful = volbins - volbins(5);
+    helpful = volbins - volbins(5);
     del1=(theta(4).*helpful.^theta(2))./(1+(helpful.^theta(2))); 
     del1(1:5) = [0 0 0 0 0]; 
     y1=theta(1)*ones(size(Einterp)); 
@@ -146,7 +146,7 @@ end %if plotting == 1
 if makesimulations ==1
 outpath = '\\MVCO_Jan2017\euk_model\outputs\' ; 
 inpath = '\\MVCO_Jan2017\euk_model\dawnstart_inputs_2019\'; 
-savepath = '\\pico_euk_model\Simulated_inputs_high_res\' ; 
+savepath = '\\pico_euk_model\Simulated_inputs_high_res\' ; %this is where our simulated inputs go 
 
 for n = days'
 %load inputs and relevant outputs
@@ -356,7 +356,7 @@ for i = 1:length(days)
 
     %subpopulation 2 
     del2=(theta(8).*helpful.^theta(6))./(1+(helpful.^theta(6)));
-    del2(1:5) = [0 0 0 0 0]
+    del2(1:5) = [0 0 0 0 0]; 
     y2=theta(5)*ones(size(Einterp));
     ind=find(Einterp < theta(7));
     y2(ind)=(theta(5)/theta(7)) * Einterp(ind);

@@ -6,13 +6,13 @@
 %(rows) as specified by volbins, for each hour (collumns) according to the
 %simulation. 
 %Vt1 and Vt2 are basically versions of simPROPS for each subpopulation 
-%sampleCOUNTS is a matrix with the number of cells in each size class (rows)
+%sampleCONC is a matrix with the concentration of cells in each size class (rows)
 % for each hour (collumns) as sampled from distributions according to simPROPS
 % sample size is exactly that of the observed data for each hour. 
 
 %Inputs: 
 %Einterp is a 1 x 151 vector with radiation data in W/m^2 every 10 minutes 
-%COUNTS is a matrix with the number of cells in each size class (rows) as
+%CONC is a matrix with the concentration of cells in each size class (rows) as
 %specificed by volbins, for each hour (collumns).
 % volbins is the designation of size classes that the observations are
 % broken into 

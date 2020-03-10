@@ -1,3 +1,5 @@
+%This is for fitting the model to the Dilution Series (DS) data 
+
 filelist = dir('DS_Analysis_2019\Inputs\*Data.mat');
 filepath = 'DS_Analysis_2019\Inputs\'; 
 savepath = 'DS_Analysis_2019\Outputs\'; 
@@ -17,7 +19,7 @@ while i <=length(filelist)
     hr2 = size(N_dist, 2); 
         
         %apply model
-        [modelresults, modelfits, allstarts, simPROPS, simCONC] = OneDayMultiStart(day, Einterp, volbins, CONC, hr2);
+        [modelresults, modelfits, allstarts, simPROPS, simCONC] = OneDayMultiStart_hr2(day, Einterp, volbins, CONC, hr2);
         
         
         %save results

@@ -1,3 +1,8 @@
+%This version of the script is useful for the Dilution Series data which is
+%not always a full 24 hr day
+%hr2 parameter lets us be flexible 
+
+
 %Goal: Find best fit of model to 1 day of data. 
 
 %Inputs: 
@@ -5,7 +10,7 @@
 %Solar is a two collumn light input, with time and irradiance, in LOCAL time.
 % must contain but not necessarily be limited to the day of interst. 
 %volbins = designation of size classes of cells in population
-%dayCONC = matrix with the concentration of cells in each size class (rows) as
+%dayCONC = matrix with the number of cells in each size class (rows) as
 %specificed by volbins, for each hour (collumns) of day of interest
 
 %Outputs: 
@@ -24,10 +29,9 @@
 
 %Einterp is the interpolated light data for the particular day of interest 
 
-function [modelresults, modelfits, allstarts, simPROPS, simCONC, Einterp] = OneDayMultiStart(day, Einterp, volbins, dayCONC)
+function [modelresults, modelfits, allstarts, simPROPS, simCONC, Einterp] = OneDayMultiStart(day, Einterp, volbins, dayCONC, hr2)
 
 hr1 = 1; %choose start hour for model fitting
-hr2 = 25; %choose end hour for model fittingday
  
 %% Fit Model to Data
 

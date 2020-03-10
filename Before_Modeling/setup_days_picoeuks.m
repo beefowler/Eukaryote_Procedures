@@ -1,3 +1,4 @@
+%% This script is for forming the input data for our model from the FCB data on picoeuakaryotes or syn 
 
 %created 6/27/03 modeled after modelbatch/xiopt4 combination run on LEO-15
 %2001 data to save daily size dist files for future model runs, Heidi

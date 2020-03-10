@@ -5,7 +5,6 @@ allmodelruns{1,2}=allstarts;
 allMR = allmodelruns; 
 
 N_dist = CONC; 
-%Vhists = Vhists; 
 
 theta = modelresults(2:15); 
 

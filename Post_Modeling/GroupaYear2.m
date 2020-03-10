@@ -6,8 +6,8 @@ savename = 'ModelOutputs_2006.mat';
 varname = 'AllResults_2006'; 
 AllResults_2006 = []; 
 
-filelist = dir('\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_May2006_2019\da*output.mat');
-filepath = '\\sosiknas1\Backup\Overflow_Outputs_BLF\MVCO_May2006_2019\'; 
+filelist = dir('\MVCO_May2006_2019\da*output.mat');
+filepath = '\MVCO_May2006_2019\'; 
 
 %set up for making video
 Writerobj1 = VideoWriter('ModelOutputs_2006.avi');
@@ -31,7 +31,7 @@ for i = 1:length(filelist);
     
     %load the input variables too, they are usefull 
     day = modelresults(1); 
-    inputpath = '\\sosiknas1\Lab_data\MVCO\FCB\MVCO_May2006\euk_model\dawnstart_inputs_2019\'; 
+    inputpath = '\MVCO_May2006\euk_model\dawnstart_inputs_2019\'; 
     eval(['load ' inputpath 'day' num2str(day) 'data.mat'])
 
     %Interpolate light data

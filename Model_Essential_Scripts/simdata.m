@@ -6,13 +6,13 @@
 %(rows) as specified by volbins, for each hour (collumns) according to the
 %simulation. 
 %Vt1 and Vt2 are basically versions of simPROPS for each subpopulation 
-%sampleCOUNTS is a matrix with the number of cells in each size class (rows)
+%sampleCONC is a matrix with the concentration of cells in each size class (rows)
 % for each hour (collumns) as sampled from distributions according to simPROPS
 % sample size is exactly that of the observed data for each hour. 
 
 %Inputs: 
 %Einterp is a 1 x 151 vector with radiation data in W/m^2 every 10 minutes 
-%COUNTS is a matrix with the number of cells in each size class (rows) as
+%CONC is a matrix with the concentration of cells in each size class (rows) as
 %specificed by volbins, for each hour (collumns).
 % volbins is the designation of size classes that the observations are
 % broken into 
@@ -20,20 +20,20 @@
 % hr 2 is when we want our model to end 
 
 % theta is 1 x 14 vector of parameters as defined below 
-%gmax1=theta(1); %max fraction of cells growing into next size class, subpopn 1
-%b1=theta(2);  %shape parameter division function, subpopn 1
-%E_star1=theta(3); %shape parameter of growth function (point where function switches from linear to constant), subpopn 1
-%dmax1=theta(4); %max fraction of cells able to divide in a given size class, subpopn 1
-%gmax2=theta(5); %max fraction of cells growing into next size class, subpopn 2
-%b2=theta(6); %shape parameter division function, subpopn 2
-%E_star2=theta(7); %shape parameter of growth function (point where function switches from linear to constant), subpopn 2
-%dmax2=theta(8); %max fraction of cells able to divide in a given size class, subpopn 2
-%f=theta(9); %proportion parameter, specifies starting fraction of subpopn 1
-%m1=theta(10); %mean volume for starting cell size distribution, subpopn 1
-%m2=theta(11); %mean volume for starting cell size distribution, subpopn 2
-%sigma1=theta(12); %variance parameter for starting cell size distributions for popn 1
-%sigma2=theta(13); %variance parameter for starting cell size distributions for popn 2
-%s=theta(14); %overdispersion parameter for the Dirichlet-multinomial distribution
+% gmax1=theta(1); %max fraction of cells growing into next size class, subpopn 1
+% b1=theta(2);  %shape parameter division function, subpopn 1
+% E_star1=theta(3); %shape parameter of growth function (point where function switches from linear to constant), subpopn 1
+% dmax1=theta(4); %max fraction of cells able to divide in a given size class, subpopn 1
+% gmax2=theta(5); %max fraction of cells growing into next size class, subpopn 2
+% b2=theta(6); %shape parameter division function, subpopn 2
+% E_star2=theta(7); %shape parameter of growth function (point where function switches from linear to constant), subpopn 2
+% dmax2=theta(8); %max fraction of cells able to divide in a given size class, subpopn 2
+% f=theta(9); %proportion parameter, specifies starting fraction of subpopn 1
+% m1=theta(10); %mean volume for starting cell size distribution, subpopn 1
+% m2=theta(11); %mean volume for starting cell size distribution, subpopn 2
+% sigma1=theta(12); %variance parameter for starting cell size distributions for popn 1
+% sigma2=theta(13); %variance parameter for starting cell size distributions for popn 2
+% s=theta(14); %overdispersion parameter for the Dirichlet-multinomial distribution
 
 
 function [simCONC,simPROPS,Nt1,Nt2]=simdata(Einterp,CONC,theta,volbins,hr1,hr2)
