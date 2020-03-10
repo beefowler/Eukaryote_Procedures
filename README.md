@@ -1,7 +1,5 @@
 # Eukaryote_Procedures
-A clean version of the tools used for estimating division rates of picoeukaryotes, including descriptions and instructions. 
-
-Here are the tools used to generate the results in Fowler et al. (in review). 
+This repository contains the tools, including corresponding descriptions and instructions, used for estimating the in situ division rates of picoeukaryotes at the Martha's Vineyard Coastal Observatory. 
 
 The general procedures are as follows, and files in this repository are grouped into folders accordingly. 
   1. Before_Modeling- prepare data inputs for model. 
@@ -37,9 +35,9 @@ For each year, we ran setup_days_picoeuks.m, first defining the paths to the app
 
 This generates a .mat file for each day of the year for which we have data. In it are the variables:   
 day - the matlab date number   
-volbins - the edges of our volume bins, here it is 1x66 vector. 
+volbins - the edges of our volume bins, here it is 1x66 vector.   
 dielstarthr - the (rounded) number of hours after midnight at which dawn occurs on a day   
-cellsperml - 1x25 vector with concentrations of eukaryotes at every hour beginning at dawn (cells/mL)
+cellsperml - 1x25 vector with concentrations of eukaryotes at every hour beginning at dawn (cells/mL)   
 Edata - 2 x 73 matrix. First column is # of hours after dawn, second column is incidant radiation (W m^{-2})   
 N_dist - 66 x 25 matrix. Counts of cells observed in each volume bin for each hour of the day, beginning at dawn.   
 Vhists - 66 x 25 matrix. Proportion of cells in each volume bin for each hour of the day (each hour sums to 1).   
@@ -101,16 +99,16 @@ Data_Fig1.mat includes the following variables:
 To calculate climatologies, see information on Figure 2.    
 
 *Figure 2*    
-Note: Figure 2 describes climatologies for Synechococcus and Picoeukaryotes in terms of concentration, division rate, and estimates of Primary Productivity. Data_Fig2.mat includes the values for each day of the time series that are necessary for generating these climatologies. If only interested in the Climatological values, just take the averages of these matrices, e.g. plot(nanmean(daily_euk_conc')).     
+Note: Figure 2 describes climatologies for *Synechococcus* and Picoeukaryotes in terms of concentration, division rate, and estimates of Primary Productivity. Data_Fig2.mat includes the values for each day of the time series that are necessary for generating these climatologies. If only interested in the Climatological values, just take the averages of these matrices, e.g. plot(nanmean(daily_euk_conc')).     
 The following variables are all matrices of size 366x16. The rows correspond to day of year and the columns are each distinct years, beginning with 2003 and ending with 2018. NaNs indicate days without data.          
     daily_euk_conc = average concentration of eukaryotes (cells/mL) observed on each day.     
     daily_euk_divrate = division rate (/day) estimate for picoeukaryote assemblage from model for each day.     
     daily_euk_lossrate = loss rate (/day) estimate for picoeukaryote assemblage for each day.     
     euk_min_cell_vol = the minimum value attained on each day by the mode of the picoeukaryote cell size distribution. To calculate primary productivity estimates, this value is assumed to be the "neutral" size which cells roughly grow from and divide back to.    
     
-For each of the above, Data_Fig2.mat also includes the corresponding variables for Synechococcus, where "euk" is replaced with "syn". For Synechococcus, the minimum cell volume is taken from the dawn hour only, rather than looking for the minimum over the course of the day, because the mode of the Syn size distribution tends not to decrease after dawn.    
+For each of the above, Data_Fig2.mat also includes the corresponding variables for *Synechococcus*, where "euk" is replaced with "syn". For *Synechococcus*, the minimum cell volume is taken from the dawn hour only, rather than looking for the minimum over the course of the day, because the mode of the Syn size distribution tends not to decrease after dawn.    
 
-Lastly, for your convencience, we've also included the products of the Primary Productivity climatology estimates for picoeukaryotes (daily_euk_PP) and synechococcus (daily_syn_PP) as 1x366 vectors containing values for each day of the year. These values are calculated from the above variables as described in the paper. 
+Lastly, for your convencience, we've also included the products of the Primary Productivity climatology estimates for picoeukaryotes (daily_euk_PP) and *Synechococcus* (daily_syn_PP) as 1x366 vectors containing values for each day of the year. These values are calculated from the above variables as described in the paper. 
     
 *Figure 3*  
 The data used to generate Figure 3 is in Data_Fig3.mat. As for Figure 2, we have chosen to make available all values for all days of the time series, though our figure only includes the averages for each year.   
@@ -118,17 +116,17 @@ All variables contain hourly rates in the form of a 16x366x24 array with the fir
     alleuk_obs_hr_mu \[all eukaryotes, observed hourly net growth rate (mu)] = observed net growth rate (/day) in picoeukaryote assemblage calculated by comparing from each hour to the following hour.  
     alleuk_pred_hr_mu \[all eukaryotes, predicted hourly net growth rate] = hourly estimates of division rate (/day) calculated from the hourly changes in simulated population concentrations.   
     alleuk_hr_loss \[all eukaryotes, hourly loss rate] = hourly estimates of cell loss rate (/day) calculated by subtracting net growth rate from division rate.  
-The corresponding variables for Synechococcus are available for each of the above, where "euk" is replaced with "syn". 
+The corresponding variables for *Synechococcus* are available for each of the above, where "euk" is replaced with "syn". 
 
 *Figure 4*    
-The data used to generate Figure 4 in the manuscript. Once again, daily values are available for each day of the time series, while the figure only includes the climatological values. For each of the following matrices, each row is a year starting with 2003, and each column is the day of the year. NaNs indicate days without data. 
-Daily_sunlight - 366x16 matrix with the mean incident radation (W m^(-2)) for each day as measured by the PAR sensor at the MVCO Meteorological mast.
-Daily_temp - 366x16 matrix with the daily mean seawater temperature (&deg;C). Each row is a year starting with 2003 and each column is the day of the year. NaNs indicate days without data. 
-daily_euk_divrate - 366x16 matrix with daily estimates of division rate for the picoeukaryote assemblage. Same as in Figure 2 data. 
-More details about the environmental measurements are available at the [MVCO site](https://www.whoi.edu/website/mvco/meteorological-data/). 
+The data used to generate Figure 4 in the manuscript. Once again, daily values are available for each day of the time series, while the figure only includes the climatological values. For each of the following matrices, each row is a year starting with 2003, and each column is the day of the year. NaNs indicate days without data.    
+Daily_sunlight - 366x16 matrix with the mean incident radiation (W m^(-2)) for each day as measured by the PAR sensor at the MVCO Meteorological mast.    
+Daily_temp - 366x16 matrix with the daily mean seawater temperature (&deg;C). Each row is a year starting with 2003 and each column is the day of the year. NaNs indicate days without data.     
+daily_euk_divrate - 366x16 matrix with daily estimates of division rate for the picoeukaryote assemblage. Same as in Figure 2 data.    
+More details about the environmental measurements are available at the [MVCO site](https://www.whoi.edu/website/mvco/meteorological-data/).     
 
 Parameter Estimates from Known Values     
-Also in the Post_Modeling folder is a script called subpop_case_studies_higher_res.m, which was used to generate Figures S9-S11 in the SI Appendix. This script focuses on three days, which were chosen to be "case studies" and are representative of the most common ways the two subpopulations are fit to the observed picoeukaryote dynamics at MVCO. The script plots the details of these subpopulation's behavior and parameter values, saves the optimized model outputs in the form of our model inputs, and then reruns the optimization process on these newly generated simulated data. The details of the second optimization are also plotted in the supplementary figures, such that we can compare the model output to the known population behavior and parameter values of a simulated data set. 
+Also in the Post_Modeling folder is a script called subpop_case_studies_higher_res.m, which was used to generate Figures S9-S11 in the SI Appendix. This script focuses on three days, which were chosen to be "case studies" and are representative of the most common ways the two subpopulations are fit to the observed picoeukaryote dynamics at MVCO. The script plots the details of these subpopulations' behavior and parameter values, saves the optimized model outputs in the form of our model inputs, and then reruns the optimization process on these newly generated simulated data. The details of the second optimization are also plotted in the supplementary figures, such that we can compare the model output to the known population behavior and parameter values of a simulated data set. 
 
 
 # Contact Us
